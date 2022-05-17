@@ -7,22 +7,54 @@ import { LikeWidgetModule } from "./like-widget.module";
 describe(LikeWidgetComponent.name, () => {
 
   let fixture: ComponentFixture<LikeWidgetComponent> = null;
+  let component: LikeWidgetComponent = null;
 
   //Ambos os metodos com e sem await vão funcionar
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [LikeWidgetModule]
-    }).compileComponents();
 
     // TestBed.configureTestingModule({
     //   imports: [LikeWidgetModule]
     // });
 
+    await TestBed.configureTestingModule({
+      imports: [LikeWidgetModule]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(LikeWidgetComponent);
+    component = fixture.componentInstance;
   });
 
   it('Should create component', () => {
-    const instance = fixture.componentInstance;
-    expect(instance).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  it('Should auto generate ID when id input property is missing', () => {
+    fixture.detectChanges();
+    expect(component.id).toBeTruthy();
+  });
+
+  it('Should NOT generate ID when id input property is present', () => {
+    const someId = 'someId';
+    component.id = someId;
+    fixture.detectChanges();
+    expect(component.id).toBe(someId);
+  });
+
+  //a variavel criada "done" tem que ser obrigatóriamente chamada ou vai quebrar
+  // it(`#${LikeWidgetComponent.prototype.like.name}
+  //   should trigger emission when called`, done => {
+  //     fixture.detectChanges();
+  //     component.liked.subscribe(() => {
+  //       done();
+  //     });
+  //     component.like();
+  // });
+
+  it(`#${LikeWidgetComponent.prototype.like.name}
+  should trigger emission when called`, () => {
+    spyOn(component.liked, 'emit'); //transforma o metodo emit em um spy
+    fixture.detectChanges();
+    component.like();
+    expect(component.liked.emit).toHaveBeenCalled(); //toHaveBeenCalled só funciona com o metodo spy
   });
 });
