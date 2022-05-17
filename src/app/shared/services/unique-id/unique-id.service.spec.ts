@@ -30,4 +30,14 @@ describe(UniqueIdService.name, () => {
       service.generateUniqueIdWithPrefix('app');
       expect(service.getNumberOfGeneratedUniqueIds()).toBe(2);
   });
+
+  //Quando quer testar se lança exceção tem que chamar dentro de uma função () =>
+  it(`${prefixMethod} should throw when called with empty`, () => {
+    const emptyValues = [null, undefined, '', '0', '1', 'app'];
+    emptyValues.forEach(emptyValue => {
+      expect(() => service.generateUniqueIdWithPrefix(emptyValue))
+      .withContext(`Empty value: ${emptyValue}`)
+      .toThrow();
+    });
+  });
 });
