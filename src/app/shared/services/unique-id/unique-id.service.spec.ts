@@ -33,7 +33,7 @@ describe(UniqueIdService.name, () => {
 
   //Quando quer testar se lança exceção tem que chamar dentro de uma função () =>
   it(`${prefixMethod} should throw when called with empty`, () => {
-    const emptyValues = [null, undefined, '', '0', '1', 'app'];
+    const emptyValues = [null, undefined, '', '0', '1'];
     emptyValues.forEach(emptyValue => {
       expect(() => service.generateUniqueIdWithPrefix(emptyValue))
       .withContext(`Empty value: ${emptyValue}`)
